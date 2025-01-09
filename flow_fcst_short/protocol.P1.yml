@@ -8,12 +8,12 @@ protocol:
       - point gage measurements of flow at hourly and longer timesteps
     reference_capabilities_baselines:
       - RFC streamflow forecasts
-      - NWM 3.0 streamflow forecasts
-      - Nextgen-based NWM default short-range configuration
-      - Persistence forecast
+      - NWM archived medium-range streamflow forecasts
+      - NWM 3.0 retrospective simulations
+      - Persistence forecasts, climatology
     experimental_design:
       spatial: Subset of CAMELS catchment that is forecast by NOAA-RFCs
-      study_period: "2017-2022"
+      study_period: "WYs2018-2024"
       lead_times: [1, 2, 3, 4, 5, 6, 7]  # in days
       timestep:
         - "1H"  # hourly
