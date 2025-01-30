@@ -1,9 +1,9 @@
 protocol:
-  name: "Seasonal water supply forecasting (WSF)"
+  name: "Seasonal Water Supply Forecasting (WSF)"
   protocol_id: P2
-  version: 1.0
+  version: 1.1
   metadata:
-    focus_objective: Seasonal water supply forecast performance across multiple verification features
+    focus_objective: Evaluate seasonal water supply forecast performance across multiple verification features
     observations:
       - Point gage measurements of adjusted flows (i.e., naturalized) as daily timesteps and seasonal volumes
     reference_capabilities_baselines:
@@ -11,12 +11,12 @@ protocol:
       - Western RFC seasonal WSFs
       - Climatology, analog year selection
     experimental_design:
-      spatial: Bureau of Reclamation WSF Rodeo basins; NRCS x RFC forecast points
+      spatial: Bureau of Reclamation WSF Rodeo basins; NRCS and western RFC forecast points
       study_period: "WYs1990-2024"
-      fcst_inits: [Mar 1, Apr 1, May 1, Jun 1]
+      fcst_inits: [Jan 1, Feb 1, Mar 1, Apr 1, May 1, Jun 1]
       timestep:
-        - "1D"   # daily (e.g., ESP based forecasts)
-        - "AMJJ" # Seasonal volumes
+        - "1D"   # daily streamflow (for ESP-based or hybrid forecasts)
+        - "AMJJ" # Apr-Jul seasonal volumes
     other_considerations:
       - computational demand of innovation
       - stability of dependencies (method, dataset)
@@ -25,8 +25,9 @@ protocol:
       - potential for forecaster training and real-time support
       - dependency on proprietary resources or methods
     references_and_related_activities:
-      - Cosgrove, B., et al., NOAA's National Water Model: Advancing Operational Hydrology Through Continental-Scale Modeling, J. AWRA (in review)
-      - McEnery, J., et al., 2005: NOAA's Advanced Hydrologic Prediction Service, Bull. Amer. Meteor. Soc., 86, 375-386, https://doi.org/10.1175/BAMS-86-3-375
+      - Bureau of Reclamation, 2025, Water Supply Forecast Rodeo. Data Driven Labs. https://www.drivendata.org/competitions/group/reclamation-water-supply-forecast/
+      - Pagano, T., et al., 2004, Evaluation of Official Western U.S. Seasonal Water Supply Outlooks, 1922–2002, Journal of Hydrometeorology, 5, 896–909, https://doi.org/10.1175/1525-7541(2004)005<0896:EOOWUS>2.0.CO;2
+      - Wood, A., and Lettenmaier, D., 2006, A Test Bed for New Seasonal Hydrologic Forecasting Approaches in the Western United States, Bull. Amer. Meteor. Soc., 1699–1712, https://doi.org/10.1175/BAMS-87-12-1699
     contacts:
       contact_1:
         name: Andy Wood
@@ -36,37 +37,52 @@ protocol:
         email: joshua_sturtevant@mines.edu
 
   performance_metrics:
-    peak_flow_magnitude:
-      description: Peak flow magnitude
+    volume_bias:
+      description: Bias in seasonal flow volume (forecast - observed) as a percentage of observed
       expected_value: float
-      units: m3/s
+      units: "%"
+      lead_times: [0, 1, 2, 3]  # Lead times in months from target period
       calculated_by: teehr
-    peak_flow_timing:
-      description: Peak flow timing
+    rmse_volume:
+      description: Root Mean Square Error of seasonal flow volume
       expected_value: float
-      units: minutes
+      units: "volume"
+      lead_times: [0, 1, 2, 3]  # Lead times in months from target period
       calculated_by: teehr
-    modified_kge:
-      description: Modified Kling-Gupta Efficiency for forecast flow
+    correlation:
+      description: Pearson correlation between forecast and observed seasonal volumes
       expected_value: float
       units: N/A
-      calculated_by: teehr
-    cumulative_flow:
-      description: Cumulative flow volume at each daily lead time (days 1-7)
-      expected_value: float
-      units: m3
-      lead_times: [1, 2, 3, 4, 5, 6, 7]
+      lead_times: [0, 1, 2, 3]  # Lead times in months from target period
       calculated_by: teehr
     crps:
-      description: Continuous Ranked Probability Score of forecast flow for each lead time (ensemble forecasts only)
+      description: Continuous Ranked Probability Score (CRPS) of forecast volume for seasonal forecasts (ensemble forecasts only)
       expected_value: float
       units: N/A
-      lead_times: [1, 2, 3, 4, 5, 6, 7]
+      lead_times: [0, 1, 2, 3]  # Lead times in months from target period
       calculated_by: teehr
-    ets:
-      description: Equitable Threat Score for flow versus defined thresholds (e.g., flood)
+    ranked_prob_skill_score:
+      description: Ranked Probability Skill Score (RPSS) relative to climatology for tercile-based probabilistic forecasts
       expected_value: float
       units: N/A
+      lead_times: [0, 1, 2, 3]  # Lead times in months from target period
+      calculated_by: teehr
+    brier_score:
+      description: Brier Score for categorical (e.g., tercile) probabilistic forecasts of seasonal volume
+      expected_value: float
+      units: N/A
+      calculated_by: teehr
+    heidke_skill_score:
+      description: Heidke Skill Score (HSS) for categorical tercile forecasts compared to climatology
+      expected_value: float
+      units: N/A
+      lead_times: [0, 1, 2, 3]  # Lead times in months from target period
+      calculated_by: teehr
+    nash_sutcliffe_efficiency:
+      description: Nash-Sutcliffe Efficiency (NSE) for daily streamflow forecasts
+      expected_value: float
+      units: N/A
+      lead_times: [0, 1, 2, 3]  # Lead times in months from target period
       calculated_by: teehr
 
   computational_metadata:
@@ -90,4 +106,3 @@ protocol:
       description: Whether the model or experiment relies on proprietary resources, methods, or data
       expected_values: [yes, no]
       provided_by: modeler
-
