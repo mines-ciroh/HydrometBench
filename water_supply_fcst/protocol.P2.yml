@@ -1,0 +1,93 @@
+protocol:
+  name: "Seasonal water supply forecasting (WSF)"
+  protocol_id: P2
+  version: 1.0
+  metadata:
+    focus_objective: Seasonal water supply forecast performance across multiple verification features
+    observations:
+      - Point gage measurements of adjusted flows (i.e., naturalized) as daily timesteps and seasonal volumes
+    reference_capabilities_baselines:
+      - USDA-NRCS WSFs
+      - Western RFC seasonal WSFs
+      - Climatology, analog year selection
+    experimental_design:
+      spatial: Bureau of Reclamation WSF Rodeo basins; NRCS x RFC forecast points
+      study_period: "WYs1990-2024"
+      fcst_inits: [Mar 1, Apr 1, May 1, Jun 1]
+      timestep:
+        - "1D"   # daily (e.g., ESP based forecasts)
+        - "AMJJ" # Seasonal volumes
+    other_considerations:
+      - computational demand of innovation
+      - stability of dependencies (method, dataset)
+      - potential operational latency
+      - extent of existing documentation and published research
+      - potential for forecaster training and real-time support
+      - dependency on proprietary resources or methods
+    references_and_related_activities:
+      - Cosgrove, B., et al., NOAA's National Water Model: Advancing Operational Hydrology Through Continental-Scale Modeling, J. AWRA (in review)
+      - McEnery, J., et al., 2005: NOAA's Advanced Hydrologic Prediction Service, Bull. Amer. Meteor. Soc., 86, 375-386, https://doi.org/10.1175/BAMS-86-3-375
+    contacts:
+      contact_1:
+        name: Andy Wood
+        email: awwood@mines.edu
+      contact_2:
+        name: Josh Sturtevant
+        email: joshua_sturtevant@mines.edu
+
+  performance_metrics:
+    peak_flow_magnitude:
+      description: Peak flow magnitude
+      expected_value: float
+      units: m3/s
+      calculated_by: teehr
+    peak_flow_timing:
+      description: Peak flow timing
+      expected_value: float
+      units: minutes
+      calculated_by: teehr
+    modified_kge:
+      description: Modified Kling-Gupta Efficiency for forecast flow
+      expected_value: float
+      units: N/A
+      calculated_by: teehr
+    cumulative_flow:
+      description: Cumulative flow volume at each daily lead time (days 1-7)
+      expected_value: float
+      units: m3
+      lead_times: [1, 2, 3, 4, 5, 6, 7]
+      calculated_by: teehr
+    crps:
+      description: Continuous Ranked Probability Score of forecast flow for each lead time (ensemble forecasts only)
+      expected_value: float
+      units: N/A
+      lead_times: [1, 2, 3, 4, 5, 6, 7]
+      calculated_by: teehr
+    ets:
+      description: Equitable Threat Score for flow versus defined thresholds (e.g., flood)
+      expected_value: float
+      units: N/A
+      calculated_by: teehr
+
+  computational_metadata:
+    dataset_dependency_stability: 
+      description: Stability of the dataset used by the model or experiment
+      expected_values: [low, medium, high]
+      provided_by: modeler
+    operational_latency:
+      description: Expected delay or latency in operationalizing the model (e.g., real-time forecasting)
+      expected_values: [low, medium, high]
+      provided_by: modeler
+    forecaster_training:
+      description: Level of training required for forecasters to use the model effectively
+      expected_values: [none, basic, advanced]
+      provided_by: modeler
+    documentation_availability:
+      description: Availability and completeness of documentation for the model or experiment
+      expected_values: [available, partial, none]
+      provided_by: modeler
+    proprietary_resources:
+      description: Whether the model or experiment relies on proprietary resources, methods, or data
+      expected_values: [yes, no]
+      provided_by: modeler
+
