@@ -52,25 +52,21 @@ protocol:
       expected_value: float
       units: "%"
       lead_times: [0, 1, 2, 3]  # Lead times in months from target period
-      calculated_by: teehr
     rmse_volume:
       description: Root Mean Square Error of seasonal flow volume
       expected_value: float
       units: "volume"
       lead_times: [0, 1, 2, 3]  # Lead times in months from target period
-      calculated_by: teehr
     correlation:
       description: Pearson correlation between forecast and observed seasonal volumes
       expected_value: float
       units: N/A
       lead_times: [0, 1, 2, 3]  # Lead times in months from target period
-      calculated_by: teehr
     crps:
       description: Continuous Ranked Probability Score (CRPS) of forecast volume for seasonal forecasts (ensemble forecasts only)
       expected_value: float
       units: N/A
       lead_times: [0, 1, 2, 3]  # Lead times in months from target period
-      calculated_by: teehr
     ranked_prob_skill_score:
       description: Ranked Probability Skill Score (RPSS) relative to climatology for tercile-based probabilistic forecasts
       expected_value: float
@@ -81,19 +77,16 @@ protocol:
       description: Brier Score for categorical (e.g., tercile) probabilistic forecasts of seasonal volume
       expected_value: float
       units: N/A
-      calculated_by: teehr
     heidke_skill_score:
       description: Heidke Skill Score (HSS) for categorical tercile forecasts compared to climatology
       expected_value: float
       units: N/A
       lead_times: [0, 1, 2, 3]  # Lead times in months from target period
-      calculated_by: teehr
     nash_sutcliffe_efficiency:
       description: Nash-Sutcliffe Efficiency (NSE) for daily streamflow forecasts
       expected_value: float
       units: N/A
       lead_times: [0, 1, 2, 3]  # Lead times in months from target period
-      calculated_by: teehr
 
   computational_metadata:
     dataset_dependency_stability: 
