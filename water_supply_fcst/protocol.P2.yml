@@ -12,11 +12,21 @@ protocol:
       - Climatology, analog year selection
     experimental_design:
       spatial: Bureau of Reclamation WSF Rodeo basins; NRCS and western RFC forecast points
-      study_period: "WYs1990-2024"
-      fcst_inits: [Jan 1, Feb 1, Mar 1, Apr 1, May 1, Jun 1]
+      study_period: "WYs1990-2023"
+      test_period_start: "WY2004"
+      test_period_end: "WY2023"
+      train_period_start: "WY1990"
+      train_period_end: "WY2023"
+      cross_val_method: "temporal (LOOCV)"
+      fcst_inits: [Jan 1, Feb 1, Mar 1, Apr 1]
       timestep:
-        - "1D"   # daily streamflow (for ESP-based or hybrid forecasts)
-        - "AMJJ" # Apr-Jul seasonal volumes
+        - "seasonal_vol" # typically, Apr-Jul seasonal volumes
+      probabilistic_fcst_probs:
+        - f10
+        - f30
+        - f50
+        - f70
+        - f90
     other_considerations:
       - computational demand of innovation
       - stability of dependencies (method, dataset)
