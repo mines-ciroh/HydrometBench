@@ -1,5 +1,5 @@
 #### Overview
-The US NOAA Cooperative Institute for Research to Operations in Hydrology (CIROH) is a consortium of US institutions (academic, private, non-profit) that collectively partner with the US National Water Center (NWC) to conduct research to advance operational hydrologic forecasting services. One CIROH project that is being conducted at the Colorado School of Mines (CSM) is the CIROH Hydrologic Prediction Testbed (CHPT) -- a community-oriented initiative to establish rigorous, quantitative intercomparison and benchmarking of US operational hydrologic forecasts, and particularly the multiple elements – models, methods, datasets – involved in producing them. The Testbed’s overarching goal is to address the problematic lack of coherence of research into fundamental challenges and needs for operational prediction systems, which is a significant impediment to intercomparison, benchmarking, and synergistic learning across diverse investments into forecasting research and development. 
+**HydrometBench** is a collection of experimental protocols and related datasets and codes for benchmarking scientific and technological advances related to hydrometeorological and hydroclimate forecasting.  These contribute collectively to a hydrologic prediction 'testbed' that is being developed under the auspices (and sponsorship) from the _US NOAA Cooperative Institute for Research to Operations in Hydrology (CIROH)_. CIROH is a consortium of US institutions (academic, private, non-profit) that collectively partner with the US National Water Center (NWC) to conduct research to advance operational hydrologic forecasting services. The specific CIROH project developing HydrometBench, led at the Colorado School of Mines (CSM), is the _CIROH Hydrologic Prediction Testbed (CHPT)_ -- a community-oriented initiative to establish rigorous, quantitative intercomparison and benchmarking of US operational hydrologic forecasts, and particularly the multiple elements – models, methods, datasets – involved in producing them. The Testbed’s overarching goal is to address the problematic lack of coherence of research into fundamental challenges and needs for operational prediction systems, which is a significant impediment to intercomparison, benchmarking, and synergistic learning across diverse investments into forecasting research and development. 
 
 The CHPT promotes a multi-faceted benchmark-oriented paradigm through facilitating the use of multiple community-based experimental protocols with standardized evaluation tools, targeting different forecasting and forecasting sub-component objectives. Examples of sub-components include model formulations, model parameterizations (e.g., a glacier physics algorithm), input datasets, and techniques (e.g., data assimilation, post-processing, ensemble methods), across timescales from nowcasting to multi-season prediction. 
 
@@ -20,17 +20,17 @@ This repository contains the different protocols (in various document forms) bei
 * Andy Wood (CSM, NCAR) -- awwood@mines.edu / andywood@ucar.edu
 * Josh Sturtevant (CSM) -- joshua_sturtevant@mines.edu
 
-#### Key Collaborators
-* Katie Van Werkhoven and Matt Denno (RTI) 
-* Patrick Clemins (U. Vermont)
-* Martyn Clark (U. Calgary)
-* Ryan Johnson (U. Utah)
-* Chaopeng Shen (Pennsylvania State Univ.)
-* Louise Arnal (Ouranos)
-
-#### Other Contributors
+#### Key Contributors
 * Ethan Ritchie (CSM)
 * Nadia Schreiber (CSM)
+* Shaun Carney, Katie Van Werkhoven, Matt Denno (RTI) 
+* Patrick Clemins (U. Vermont)
+* Ryan Johnson (U. Utah)
+* Louise Arnal (Ouranos)
+
+#### Other Collaborators
+* Martyn Clark (U. Calgary)
+* Chaopeng Shen (Pennsylvania State Univ.)
 
 #### Acknowledgements
 * This project was supported by the NOAA Cooperative Institute for Research to Operations in Hydrology. Funding was awarded to Cooperative Institute for Research to Operations in Hydrology (CIROH) through the NOAA Cooperative Agreement with The University of Alabama (NA22NWS4320003).
