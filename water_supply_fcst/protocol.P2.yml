@@ -1,111 +1,140 @@
 protocol:
-  name: "Seasonal Water Supply Forecasting (WSF)"
+  name: "Seasonal Water Supply Forecasting (WSF) in the Western US"
   protocol_id: P2
   version: 1.1
+
   metadata:
-    focus_objective: Evaluate seasonal water supply forecast performance across multiple verification features
+    focus_objective: Evaluate seasonal WSF performance across multiple verification features
+
     observations:
-      - Point gage measurements of adjusted flows (i.e., naturalized) as daily timesteps and seasonal volumes
-    reference_capabilities_baselines:
-      - USDA-NRCS WSFs
-      - Western RFC seasonal WSFs
-      - Climatology, analog year selection
+      - Naturalized (adjusted) seasonal streamflow volumes
+
+    baseline_forecasts:
+      - USDA-NRCS statistical WSFs
+      - Western RFC ESP-based WSFs
+      - California DWR statistical WSFs
+      - Climatology
+
     experimental_design:
-      spatial: Bureau of Reclamation WSF Rodeo basins; NRCS and western RFC forecast points
-      study_period: "WYs1990-2023"
+      spatial: Bureau of Reclamation WSF Rodeo basins (n = 26)
+      study_period: "WY1990-WY2023"
       test_period_start: "WY2004"
       test_period_end: "WY2023"
       train_period_start: "WY1990"
       train_period_end: "WY2023"
-      cross_val_method: "temporal (LOOCV)"
-      fcst_inits: [Jan 1, Feb 1, Mar 1, Apr 1]
-      timestep:
-        - "seasonal_vol" # typically, Apr-Jul seasonal volumes
+      cross_val_method: "year-wise LOOCV"
+
+      fcst_inits:
+        - Jan 1
+        - Feb 1
+        - Mar 1
+        - Apr 1
+
+      target_periods:
+        primary: "Apr-Jul seasonal volume"
+        new_mexico_exception: "Mar-Jul seasonal volume"
+
       probabilistic_fcst_probs:
-        - f10
-        - f30
-        - f50
-        - f70
-        - f90
-    other_considerations:
-      - computational demand of innovation
-      - stability of dependencies (method, dataset)
-      - potential operational latency
-      - extent of existing documentation and published research
-      - potential for forecaster training and real-time support
-      - dependency on proprietary resources or methods
+        minimum:
+          - f10
+          - f50
+          - f90
+        recommended:
+          - f30
+          - f70
+
+      lead_times_months: [0, 1, 2, 3]
+
+    operational_metadata:
+      - input data stability and coverage
+      - operational latency and runtime requirements
+      - forecaster training/input requirements
+      - documentation availability
+      - proprietary dependencies
+
     references_and_related_activities:
-      - Bureau of Reclamation, 2025, Water Supply Forecast Rodeo. Data Driven Labs. https://www.drivendata.org/competitions/group/reclamation-water-supply-forecast/
+      - Bureau of Reclamation, 2025, Water Supply Forecast Rodeo. DrivenData. https://www.drivendata.org/competitions/group/reclamation-water-supply-forecast/
       - Pagano, T., et al., 2004, Evaluation of Official Western U.S. Seasonal Water Supply Outlooks, 1922–2002, Journal of Hydrometeorology, 5, 896–909, https://doi.org/10.1175/1525-7541(2004)005<0896:EOOWUS>2.0.CO;2
       - Wood, A., and Lettenmaier, D., 2006, A Test Bed for New Seasonal Hydrologic Forecasting Approaches in the Western United States, Bull. Amer. Meteor. Soc., 1699–1712, https://doi.org/10.1175/BAMS-87-12-1699
+
     contacts:
       contact_1:
-        name: Andy Wood
-        email: awwood@mines.edu
-      contact_2:
         name: Josh Sturtevant
         email: joshua_sturtevant@mines.edu
 
+      contact_2:
+        name: Andy Wood
+        email: awwood@mines.edu
+
   performance_metrics:
-    volume_bias:
-      description: Bias in seasonal flow volume (forecast - observed) as a percentage of observed
-      expected_value: float
-      units: "%"
-      lead_times: [0, 1, 2, 3]  # Lead times in months from target period
-    rmse_volume:
-      description: Root Mean Square Error of seasonal flow volume
+
+    rmse:
+      description: Root Mean Square Error (RMSE) of seasonal flow volume forecasts
       expected_value: float
       units: "volume"
-      lead_times: [0, 1, 2, 3]  # Lead times in months from target period
-    correlation:
-      description: Pearson correlation between forecast and observed seasonal volumes
+      lead_times: [0, 1, 2, 3]
+
+    percent_bias:
+      description: Percent bias of seasonal flow volume forecasts relative to observations
+      expected_value: float
+      units: "%"
+      lead_times: [0, 1, 2, 3]
+
+    r2:
+      description: Coefficient of determination (R²) between forecast and observed seasonal volumes
       expected_value: float
       units: N/A
-      lead_times: [0, 1, 2, 3]  # Lead times in months from target period
+      lead_times: [0, 1, 2, 3]
+
+    normalized_skill_score:
+      description: Skill score relative to climatology using normalized RMSE
+      expected_value: float
+      units: N/A
+      lead_times: [0, 1, 2, 3]
+
     crps:
-      description: Continuous Ranked Probability Score (CRPS) of forecast volume for seasonal forecasts (ensemble forecasts only)
+      description: Continuous Ranked Probability Score (CRPS) for probabilistic seasonal forecasts
       expected_value: float
       units: N/A
-      lead_times: [0, 1, 2, 3]  # Lead times in months from target period
-    ranked_prob_skill_score:
-      description: Ranked Probability Skill Score (RPSS) relative to climatology for tercile-based probabilistic forecasts
+      lead_times: [0, 1, 2, 3]
+
+    crpss:
+      description: Continuous Ranked Probability Skill Score (CRPSS) relative to climatology
       expected_value: float
       units: N/A
-      lead_times: [0, 1, 2, 3]  # Lead times in months from target period
-      calculated_by: teehr
-    brier_score:
-      description: Brier Score for categorical (e.g., tercile) probabilistic forecasts of seasonal volume
-      expected_value: float
-      units: N/A
-    heidke_skill_score:
-      description: Heidke Skill Score (HSS) for categorical tercile forecasts compared to climatology
-      expected_value: float
-      units: N/A
-      lead_times: [0, 1, 2, 3]  # Lead times in months from target period
-    nash_sutcliffe_efficiency:
-      description: Nash-Sutcliffe Efficiency (NSE) for daily streamflow forecasts
-      expected_value: float
-      units: N/A
-      lead_times: [0, 1, 2, 3]  # Lead times in months from target period
+      lead_times: [0, 1, 2, 3]
+
+    reliability_diagrams:
+      description: Reliability assessment of exceedance-probability forecasts
+      expected_value: diagnostic_plot
+
+    sharpness_diagrams:
+      description: Assessment of forecast spread and sharpness relative to climatology
+      expected_value: diagnostic_plot
 
   computational_metadata:
-    dataset_dependency_stability: 
-      description: Stability of the dataset used by the model or experiment
+
+    dataset_dependency_stability:
+      description: Stability and long-term availability of datasets required by the forecast method
       expected_values: [low, medium, high]
       provided_by: modeler
+
     operational_latency:
-      description: Expected delay or latency in operationalizing the model (e.g., real-time forecasting)
+      description: Expected latency or delay associated with operational forecast production
       expected_values: [low, medium, high]
       provided_by: modeler
+
     forecaster_training:
-      description: Level of training required for forecasters to use the model effectively
+      description: Level of forecaster training or expert intervention required
       expected_values: [none, basic, advanced]
       provided_by: modeler
+
     documentation_availability:
-      description: Availability and completeness of documentation for the model or experiment
+      description: Availability and completeness of method documentation
       expected_values: [available, partial, none]
       provided_by: modeler
-    proprietary_resources:
-      description: Whether the model or experiment relies on proprietary resources, methods, or data
+
+    proprietary_dependencies:
+      description: Dependence on proprietary datasets, software, or methods
       expected_values: [yes, no]
       provided_by: modeler
