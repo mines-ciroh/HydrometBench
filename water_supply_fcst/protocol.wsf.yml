@@ -13,7 +13,10 @@ protocol:
       - USDA-NRCS statistical WSFs
       - Western RFC ESP-based WSFs
       - California DWR statistical WSFs
-      - Climatology
+      - Climatology (30-year leave-one-out ensemble, WY1994-WY2023)
+
+    experimental_forecasts:
+      - WSF Rodeo top-5 winning solutions (R1-R5; LOOCV hindcasts from the 2024 Bureau of Reclamation WSF Rodeo)
 
     experimental_design:
       spatial: Bureau of Reclamation WSF Rodeo basins (n = 26)
@@ -32,7 +35,8 @@ protocol:
 
       target_periods:
         primary: "Apr-Jul seasonal volume"
-        new_mexico_exception: "Mar-Jul seasonal volume"
+        new_mexico_exception: "Mar-Jul seasonal volume (USGS 08378500, Pecos R nr Pecos NM)"
+        oregon_detroit_lake_exception: "Apr-Jun seasonal volume (USGS 14181500, Detroit Lake OR)"
 
       probabilistic_fcst_probs:
         minimum:
@@ -75,27 +79,21 @@ protocol:
   performance_metrics:
 
     rmse:
-      description: Root Mean Square Error (RMSE) of seasonal flow volume forecasts
+      description: Root Mean Square Error (RMSE) of median (f50) seasonal volume forecasts
       expected_value: float
-      units: "volume"
+      units: "KAF"
       lead_times: [0, 1, 2, 3]
 
-    percent_bias:
-      description: Percent bias of seasonal flow volume forecasts relative to observations
+    nrmse:
+      description: Normalized RMSE (RMSE / mean observed volume over evaluation period), expressed as a percentage; primary deterministic skill metric
       expected_value: float
       units: "%"
       lead_times: [0, 1, 2, 3]
 
-    r2:
-      description: Coefficient of determination (R²) between forecast and observed seasonal volumes
+    percent_bias:
+      description: Percent bias of median (f50) seasonal volume forecasts relative to observations
       expected_value: float
-      units: N/A
-      lead_times: [0, 1, 2, 3]
-
-    normalized_skill_score:
-      description: Skill score relative to climatology using normalized RMSE
-      expected_value: float
-      units: N/A
+      units: "%"
       lead_times: [0, 1, 2, 3]
 
     crps:
